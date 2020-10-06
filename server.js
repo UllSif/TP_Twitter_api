@@ -13,43 +13,20 @@ db.once('open', function () {
 
 const Sensor = require('./models/sensors');
 
-// CREATE APP CONF
-app.use('/lib', express.static(__dirname + '/client/static/'));
-
-// CREATE ROUTES API
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/client/static/index.html');
-});
-
-app.get('/tweets', function (req, res) {
-    res.sendFile(__dirname + '/client/static/tweets.html')
-})
-
-app.get('/dataviz', function (req, res) {
-    res.sendFile(__dirname + '/client/static/dataviz.html')
-})
-
-app.get('/api/capteurs/:stype', function (req, res) {
-    Sensor.find({'sensor_type': req.params.stype}).exec(function (err, sensorList) {
-        if (err) {
-            console.log(err);
-        }
-        console.log(sensorList);
-        res.json(sensorList);
-    })
-})
-
 var Twitter = require('twitter');
 
 var client = new Twitter({
-    consumer_key: '',
-    consumer_secret: '',
-    access_token_key: '',
-    access_token_secret: ''
+    consumer_key: 'xErAcWaxOVMjqhJBYlfIh72yJ',
+    consumer_secret: 'opY4lNyNCLpncKTlplcxOqKUwzhy9xZUpIkb1y9YkkWZIwXAsH',
+    access_token_key: '1283450833330470914-edIMPYtGatbYyZcOEGspQCUiDknur2',
+    access_token_secret: 'GGlCFa7WIYm0q68UINnGDCpW2l0M3jEkKnTLNJWOfuCak'
 });
 
 var stream = client.stream('statuses/filter', {track: 'testGui'});
 
+// stream.on('error', function (error) {
+//     throw error;
+// });
 
 stream.on('data', function (event) {
     console.log(event)
@@ -125,9 +102,31 @@ stream.on('data', function (event) {
     }
 });
 
-stream.on('error', function (error) {
-    throw error;
+// CREATE APP CONF
+app.use('/lib', express.static(__dirname + '/client/static/'));
+
+// CREATE ROUTES API
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/client/static/index.html');
 });
+
+app.get('/tweets', function (req, res) {
+    res.sendFile(__dirname + '/client/static/tweets.html')
+})
+
+app.get('/dataviz', function (req, res) {
+    res.sendFile(__dirname + '/client/static/dataviz.html')
+})
+
+app.get('/api/capteurs/:stype', function (req, res) {
+    Sensor.find({'sensor_type': req.params.stype}).exec(function (err, sensorList) {
+        if (err) {
+            console.log(err);
+        }
+        console.log(sensorList);
+        res.json(sensorList);
+    })
+})
 
 // handle socket events
 io.on('connection', (socket) => {

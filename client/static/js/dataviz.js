@@ -35,12 +35,11 @@ fetch('./api/capteurs/hum')
                 // Configuration options go here
                 options: {}
             });
-
+            // console.log(chart);
             socket.on('humChange', function (msg) {
                 console.log(msg);
-                chart.data.labels.push(Date.now());
-                chart.data.data.push(msg.newHum);
-                chart.update();
+                console.log(msg.newHum);
+                addData(chart, Date.now(), msg.newHum)
             })
         })
 
@@ -48,3 +47,11 @@ fetch('./api/capteurs/hum')
     .catch(function (err) {
         console.log('Fetch Error :-S', err);
     });
+
+function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+}
