@@ -16,10 +16,10 @@ const Sensor = require('./models/sensors');
 var Twitter = require('twitter');
 
 var client = new Twitter({
-    consumer_key: 'xErAcWaxOVMjqhJBYlfIh72yJ',
-    consumer_secret: 'opY4lNyNCLpncKTlplcxOqKUwzhy9xZUpIkb1y9YkkWZIwXAsH',
-    access_token_key: '1283450833330470914-edIMPYtGatbYyZcOEGspQCUiDknur2',
-    access_token_secret: 'GGlCFa7WIYm0q68UINnGDCpW2l0M3jEkKnTLNJWOfuCak'
+    consumer_key: '',
+    consumer_secret: '',
+    access_token_key: '',
+    access_token_secret: ''
 });
 
 var stream = client.stream('statuses/filter', {track: 'testGui'});
